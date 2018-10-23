@@ -524,4 +524,7 @@ def main(_):
 
 
 if __name__ == "__main__":
-  tf.app.run()
+    start_time = time.time()
+    tf.app.run()
+    duration = time.time() - start_time
+    print('Duration of running: {} seconds'.format(duration))

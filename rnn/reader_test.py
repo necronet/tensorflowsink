@@ -1,6 +1,9 @@
+from __future__ import print_function
 import os.path
 import tensorflow as tf
 import reader
+import logging
+import sys
 
 class PtbReaderTest(tf.test.TestCase):
 
@@ -42,5 +45,7 @@ class PtbReaderTest(tf.test.TestCase):
         coord.join()
 
 
+
 if __name__ == "__main__":
-  tf.test.main()
+    print(tf.logging)
+    tf.test.main()

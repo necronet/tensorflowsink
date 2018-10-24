@@ -518,7 +518,7 @@ def main(_):
 
         print("Validation time %.0f" % (start_time-time.time()) )
         print("Epoch: %d Valid Perplexity: %.3f" % (i + 1, valid_perplexity))
-        
+
       test_perplexity = run_epoch(session, mtest)
       print("Test Perplexity: %.3f" % test_perplexity)
 
@@ -528,7 +528,4 @@ def main(_):
 
 
 if __name__ == "__main__":
-    start_time = time.time()
     tf.app.run()
-    duration = time.time() - start_time
-    logging.warning('Duration of running: {} seconds'.format(duration))

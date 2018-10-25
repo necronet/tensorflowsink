@@ -512,11 +512,11 @@ def main(_):
         start_time = time.time()
         train_perplexity = run_epoch(session, m, eval_op=m.train_op,
                                      verbose=True)
-        print("Learning time %.0f" % (start_time-time.time()) )
+        print("Learning time %.0f" % (time.time()-start_time) )
         print("Epoch: %d Train Perplexity: %.3f" % (i + 1, train_perplexity))
         valid_perplexity = run_epoch(session, mvalid)
 
-        print("Validation time %.0f" % (start_time-time.time()) )
+        print("Validation time %.0f" % (time.time()-start_time) )
         print("Epoch: %d Valid Perplexity: %.3f" % (i + 1, valid_perplexity))
 
       test_perplexity = run_epoch(session, mtest)

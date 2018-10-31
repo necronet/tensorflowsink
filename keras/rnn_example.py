@@ -15,7 +15,7 @@ import argparse
     from here: http://www.fit.vutbr.cz/~imikolov/rnnlm/simple-examples.tgz. Change the
     data_path variable below to your local exraction path"""
 
-data_path = "/Users/necronet/Documents/repos/tensorflow-sink/rnn/data"
+data_path = "/home/mproject/cse741/tensorflowsink/rnn/simple-examples/data/"
 
 parser = argparse.ArgumentParser()
 parser.add_argument('run_opt', type=int, default=1, help='An integer: 1 to train, 2 to test')
@@ -132,7 +132,7 @@ if args.run_opt == 1:
     #                     validation_steps=10)
     model.save(data_path + "final_model.hdf5")
 elif args.run_opt == 2:
-    model = load_model(data_path + "\model-40.hdf5")
+    model = load_model(data_path + "final_model.hdf5")
     dummy_iters = 40
     example_training_generator = KerasBatchGenerator(train_data, num_steps, 1, vocabulary,
                                                      skip_step=1)

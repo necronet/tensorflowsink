@@ -1,3 +1,4 @@
+*.hdf5
 simple-examples
 __pycache__
 .DS_Store

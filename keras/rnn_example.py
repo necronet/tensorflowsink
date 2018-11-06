@@ -48,9 +48,9 @@ def file_to_word_ids(filename, word_to_id):
 
 def load_data():
     # get the data paths
-    train_path = os.path.join(data_path, "ptb.train.txt")
-    valid_path = os.path.join(data_path, "ptb.valid.txt")
-    test_path = os.path.join(data_path, "ptb.test.txt")
+    train_path = os.path.join(data_path, "input.txt")
+    valid_path = os.path.join(data_path, "input.txt")
+    test_path = os.path.join(data_path, "input.txt")
 
     # build the complete vocabulary, then convert text data to list of integers
     word_to_id = build_vocab(train_path)
@@ -112,8 +112,7 @@ model = Sequential()
 model.add(Embedding(vocabulary, hidden_size, input_length=num_steps))
 model.add(LSTM(hidden_size, return_sequences=True))
 model.add(LSTM(hidden_size, return_sequences=True))
-if use_dropout:
-    model.add(Dropout(0.5))
+model.add(Dropout(0.5))
 model.add(TimeDistributed(Dense(vocabulary)))
 model.add(Activation('softmax'))
 
@@ -122,7 +121,7 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['categ
 
 print(model.summary())
 checkpointer = ModelCheckpoint(filepath=data_path + '/model-{epoch:02d}.hdf5', verbose=1)
-num_epochs = 50
+num_epochs = 5
 if args.run_opt == 1:
     model.fit_generator(train_data_generator.generate(), len(train_data)//(batch_size*num_steps), num_epochs,
                         validation_data=valid_data_generator.generate(),

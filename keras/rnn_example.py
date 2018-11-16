@@ -2,11 +2,11 @@ from __future__ import print_function
 import collections
 import os
 import tensorflow as tf
-from keras.models import Sequential, load_model
+from batch_generator import KerasBatchGenerator
+from keras.models import Sequential
 from keras.layers import Dense, Activation, Embedding, Dropout, TimeDistributed
 from keras.layers import LSTM
 from keras.optimizers import Adam
-from keras.utils import to_categorical
 from keras.callbacks import ModelCheckpoint
 import numpy as np
 import argparse
@@ -50,7 +50,7 @@ def load_data():
     # get the data paths
     train_path = os.path.join(data_path, "input.txt")
     valid_path = os.path.join(data_path, "input.txt")
-    test_path = os.path.join(data_path, "input.txt")
+            test_path = os.path.join(data_path, "input.txt")
 
     # build the complete vocabulary, then convert text data to list of integers
     word_to_id = build_vocab(train_path)
@@ -69,35 +69,7 @@ def load_data():
 
 train_data, valid_data, test_data, vocabulary, reversed_dictionary = load_data()
 
-class KerasBatchGenerator(object):
 
-    def __init__(self, data, num_steps, batch_size, vocabulary, skip_step=5):
-        self.data = data
-        self.num_steps = num_steps
-        self.batch_size = batch_size
-        self.vocabulary = vocabulary
-        # this will track the progress of the batches sequentially through the
-        # data set - once the data reaches the end of the data set it will reset
-        # back to zero
-        self.current_idx = 0
-        # skip_step is the number of words which will be skipped before the next
-        # batch is skimmed from the data set
-        self.skip_step = skip_step
-
-    def generate(self):
-        x = np.zeros((self.batch_size, self.num_steps))
-        y = np.zeros((self.batch_size, self.num_steps, self.vocabulary))
-        while True:
-            for i in range(self.batch_size):
-                if self.current_idx + self.num_steps >= len(self.data):
-                    # reset the index back to the start of the data set
-                    self.current_idx = 0
-                x[i, :] = self.data[self.current_idx:self.current_idx + self.num_steps]
-                temp_y = self.data[self.current_idx + 1:self.current_idx + self.num_steps + 1]
-                # convert all of temp_y into a one hot representation
-                y[i, :, :] = to_categorical(temp_y, num_classes=self.vocabulary)
-                self.current_idx += self.skip_step
-            yield x, y
 
 num_steps = 30
 batch_size = 20
@@ -151,8 +123,7 @@ elif args.run_opt == 2:
     print(pred_print_out)
     # test data set
     dummy_iters = 40
-    example_test_generator = KerasBatchGenerator(test_data, num_steps, 1, vocabulary,
-                                                     skip_step=1)
+    example_test_generator = KerasBatchGenerator(test_data, num_steps, 1, vocabulary, skip_step=1)
     print("Test data:")
     for i in range(dummy_iters):
         dummy = next(example_test_generator.generate())

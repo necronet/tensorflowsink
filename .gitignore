@@ -1,3 +1,4 @@
+data/
 *.hdf5
 simple-examples
 __pycache__
